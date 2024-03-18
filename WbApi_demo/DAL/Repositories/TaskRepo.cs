@@ -1,4 +1,5 @@
-﻿using DAL.Data;
+﻿using Azure.Core;
+using DAL.Data;
 using DAL.Entities;
 using DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -19,14 +20,66 @@ namespace DAL.Repositories
 
         public DataContext _context { get; }
 
-        public Task<TaskModel> AddTask(AddTaskRequest_DTO request)
+        public async Task<TaskModel> AddTask(AddTaskRequest_DTO request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                AppTask newTask = new AppTask
+                {
+                    AssignedId = request.AssignedId,
+                    Description = request.Description,
+                    EndDate = DateTime.Parse(request.EndDate),
+                    StartDate = DateTime.Parse(request.StartDate),
+                    Title = request.Title,
+                    UserId = request.UserId,
+                    Status = request.Status,
+
+                };
+                await _context.AddAsync(newTask);
+                await _context.SaveChangesAsync();
+                return new TaskModel
+                {
+                    IsSuccess = true,
+                    Message = "Task has been added sucessfully."
+                };
+            }
+            catch (Exception err)
+            {
+
+                return new TaskModel
+                {
+                    IsError = true,
+                    Message = err.Message
+                };
+            }
         }
 
-        public Task<TaskModel> DeleteTask(int Id)
+        public async Task<TaskModel> DeleteTask(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingTask = await _context.Tasks.FindAsync(Id);
+                if (existingTask == null)
+                {
+                    throw new Exception("Task does not exist.");
+                }
+
+                _context.Tasks.Remove(existingTask);
+                return new TaskModel
+                {
+                    IsSuccess = true,
+                    Message = "Task has been deleted sucessfully."
+                };
+            }
+            catch (Exception err)
+            {
+
+                return new TaskModel
+                {
+                    IsError = true,
+                    Message = err.Message
+                }; 
+            }
         }
 
         public async Task<TaskModel> GetTaskById(int Id)
@@ -45,6 +98,7 @@ namespace DAL.Repositories
                         StartDate = task.StartDate,
                         Title = task.Title,
                         UserId = task.UserId,
+                        Status = task.Status,
                         Message = "sucess",
                         IsSuccess = true
                     };
@@ -83,7 +137,9 @@ namespace DAL.Repositories
                             EndDate = item.EndDate,
                             StartDate = item.StartDate,
                             Title = item.Title,
-                            UserId = item.UserId
+                            UserId = item.UserId,
+                            Status = item.Status,
+
                         });
                 }
 
@@ -114,9 +170,39 @@ namespace DAL.Repositories
       
         }
 
-        public Task<TaskModel> UpdateTask(AddTaskRequest_DTO request)
+        public async Task<TaskModel> UpdateTask(UpdateTaskRequest_DTO request)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var existingTask = await _context.Tasks.FindAsync(request.Id);
+                if (existingTask == null)
+                {
+                    throw new Exception("Task does not exist.");
+                }
+
+                existingTask.AssignedId = request.AssignedId;
+                existingTask.Title = request.Title;
+                existingTask.Description = request.Description;
+                existingTask.EndDate = DateTime.Parse(request.EndDate);
+                existingTask.StartDate = DateTime.Parse(request.StartDate);
+                existingTask.UserId = request.UserId;
+                existingTask.Status = request.Status;
+                await _context.SaveChangesAsync();
+                return new TaskModel
+                {
+                    IsSuccess = true,
+                    Message = "Task has been updates sucessfully"
+                };
+            }
+            catch (Exception err)
+            {
+                return new TaskModel
+                {
+                    IsError = true,
+                    Message = err.Message
+                };
+            }
         }
     }
 }

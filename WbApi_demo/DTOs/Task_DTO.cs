@@ -15,6 +15,8 @@ namespace DTOs
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int AssignedId { get; set; }
+        public string Status { get; set; }
+
     }
     public class AppTaskModel
     {
@@ -25,6 +27,8 @@ namespace DTOs
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int AssignedId { get; set; }
+        public string Status { get; set; }
+
     }
     public class AddTaskRequest_DTO
     {
@@ -34,6 +38,13 @@ namespace DTOs
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public int AssignedId { get; set; }
+        public string Status { get; set; }
+
+    }
+
+    public class UpdateTaskRequest_DTO:AddTaskRequest_DTO
+    {
+        public int Id { get; set; }
     }
 
     public class TaskList_DTO:CommonMessages_DTO

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -90,6 +91,50 @@ namespace DAL.Repositories
                 {
                     IsError = true,
                     Message = err.Message,
+                };
+            }
+        }
+
+        public async Task<UserList_DTO> getUserList()
+        {
+            try
+            {
+                List<AppUser> users = await Context.Users.ToListAsync();
+                if(users.Count > 0)
+                {
+                    List<UserData> userList = new List<UserData>();
+                    foreach (var item in users)
+                    {
+                        UserData user = new UserData
+                        {
+                            Id = item.Id,
+                        Username = item.Username,
+                            Role = item.Role,
+                        };
+                        userList.Add(user);
+                    }
+                    return new UserList_DTO
+                    {
+                        IsSuccess = true,
+                        Message = "Sucessfull",
+                        users = userList
+                    };
+                }
+                else
+                {
+                    return new UserList_DTO
+                    {
+                        IsInformation = true,
+                        Message = "No Users to show",
+                    };
+                }
+            }
+            catch (Exception err)
+            {
+                return new UserList_DTO
+                {
+                    IsError = true,
+                    Message = err.Message
                 };
             }
         }

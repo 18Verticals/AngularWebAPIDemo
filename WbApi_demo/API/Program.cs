@@ -15,10 +15,12 @@ builder.Services.AddDbContext<DataContext>();
 builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
 builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<ITaskRepo, TaskRepo>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

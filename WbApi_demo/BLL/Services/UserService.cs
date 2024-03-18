@@ -20,6 +20,11 @@ namespace BLL.Services
         public IUserRepo Repo { get; }
         public ITokenService Token { get; }
 
+        public async Task<UserList_DTO> getUserList()
+        {
+            return await Repo.getUserList();
+        }
+
         public async Task<UserModel> Login(Login_User_Request request)
         {
            UserModel resp = await Repo.Login(request);
