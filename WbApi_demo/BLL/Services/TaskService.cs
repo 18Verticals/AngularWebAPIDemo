@@ -28,6 +28,11 @@ namespace BLL.Services
             return await Repo.DeleteTask(Id);
         }
 
+        public async Task<TaskList_DTO> GetTaskByAssignedId(int Id)
+        {
+            return await Repo.GetTaskByAssignedId(Id);
+        }
+
         public async Task<TaskModel> GetTaskById(int Id)
         {
             return await Repo.GetTaskById(Id);

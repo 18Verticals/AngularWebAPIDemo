@@ -48,6 +48,11 @@ namespace API.Controllers
             return await _service.DeleteTask(Id);
         }
 
+        [HttpGet("GetTaskByAssignedId/{Id}")]
+        public async Task<TaskList_DTO> GetTaskByAssignedId(int Id)
+        {
+            return await _service.GetTaskByAssignedId(Id);
+        }
 
 
 

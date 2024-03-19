@@ -14,6 +14,7 @@ namespace DAL.Repositories
         Task<TaskModel> AddTask(AddTaskRequest_DTO request);
         Task<TaskModel> UpdateTask(UpdateTaskRequest_DTO request);
         Task<TaskModel> DeleteTask(int Id);
+        Task<TaskList_DTO> GetTaskByAssignedId(int Id);
 
     }
 }

@@ -204,5 +204,56 @@ namespace DAL.Repositories
                 };
             }
         }
-    }
+
+       
+        public async Task<TaskList_DTO> GetTaskByAssignedId(int Id)
+        {
+            try
+            {
+                List<AppTask> taskList = await _context.Tasks.Where(task => task.AssignedId == Id).ToListAsync();
+                List<AppTaskModel> tasks = new List<AppTaskModel>();
+                foreach (var item in taskList)
+                {
+                    tasks.Add(
+                        new AppTaskModel
+                        {
+                            Id = item.Id,
+                            AssignedId = item.AssignedId,
+                            Description = item.Description,
+                            EndDate = item.EndDate,
+                            StartDate = item.StartDate,
+                            Title = item.Title,
+                            UserId = item.UserId,
+                            Status = item.Status,
+
+                        });
+                }
+
+                if (taskList.Count == 0)
+                {
+                    return new TaskList_DTO
+                    {
+                        tasks = tasks,
+                        IsInformation = true,
+                        Message = "No Tasks available"
+                    };
+                }
+                return new TaskList_DTO
+                {
+                    tasks = tasks,
+                    IsSuccess = true,
+                    Message = "Sucessfull"
+                };
+            }
+            catch (Exception err)
+            {
+                return new TaskList_DTO
+                {
+                    IsError = true,
+                    Message = err.Message
+                };
+            }
+
+        }
+    } 
 }
