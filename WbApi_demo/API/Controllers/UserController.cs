@@ -34,5 +34,12 @@ namespace API.Controllers
             UserModel resp = await Service.Login(request);
             return resp;
         }
+
+        [HttpGet("GetUsers")]
+        [Authorize]
+        public async Task<UserList_DTO> GetUsers()
+        {
+            return await Service.getUserList();
+        }
     }
 }

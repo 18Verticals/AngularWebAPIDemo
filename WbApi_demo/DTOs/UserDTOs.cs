@@ -25,4 +25,15 @@ namespace DTOs
         public string Role { get; set; }
         public string AuthToken { get; set; }
     }
+
+    public class UserData {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Role { get; set; }
+    }
+
+    public class UserList_DTO : CommonMessages_DTO
+    {
+        public List<UserData> users { get; set; }
+    }
 }

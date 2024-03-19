@@ -12,5 +12,6 @@ namespace DAL.Repositories
     {
         Task<UserModel> Login(Login_User_Request request);
         Task<UserModel> Register(Register_User_Request request);
+        Task<UserList_DTO> getUserList();
     }
 }

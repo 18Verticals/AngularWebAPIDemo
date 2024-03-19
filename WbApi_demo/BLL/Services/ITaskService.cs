@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Repositories
+namespace BLL.Services
 {
-    public interface ITaskRepo
+    public interface ITaskService
     {
         Task<TaskList_DTO> GetTasks();
         Task<TaskModel> GetTaskById(int Id);
